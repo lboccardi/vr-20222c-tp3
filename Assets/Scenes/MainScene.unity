@@ -345,6 +345,7 @@ GameObject:
   - component: {fileID: 1008801718}
   - component: {fileID: 1008801717}
   - component: {fileID: 1008801716}
+  - component: {fileID: 1008801719}
   m_Layer: 0
   m_Name: VC
   m_TagString: Untagged
@@ -365,6 +366,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _audioSource: {fileID: 0}
+  _barMaterial: {fileID: 2100000, guid: 6365b676f4e05244baed08fdfd64ff91, type: 2}
   _cubes: []
   _samplesAmount: 64
   _lerpSpeed: 10
@@ -481,6 +483,26 @@ Transform:
   m_Father: {fileID: 104520485}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1008801719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1008801715}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afa19b1bb9a55054aae33aaaed1927c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speed: 2
+  _time: 1
+  _colors:
+  - {r: 0, g: 1, b: 1, a: 1}
+  - {r: 0, g: 1, b: 0, a: 1}
+  - {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 1, g: 0, b: 1, a: 1}
 --- !u!1 &1604898175
 GameObject:
   m_ObjectHideFlags: 0
