@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
-public class VController : MonoBehaviour
+public class SoundBarController : MonoBehaviour
 {
     public AudioSource SetAudioSource => _audioSource; 
     [SerializeField] private AudioSource _audioSource;
-    
+
+    public Material SetBarMaterial => _barMaterial;
+    [SerializeField] private Material _barMaterial;
+
     [SerializeField] private GameObject[] _cubes;
-    
     [SerializeField] private int _samplesAmount = 64;
     [SerializeField] private float _lerpSpeed = 10F;
-    [SerializeField] private float _zOrigin = -32F;
     [SerializeField] private float[] _spectrum;
     
 
@@ -23,10 +24,12 @@ public class VController : MonoBehaviour
         _spectrum = new float [16 * _samplesAmount];
 
         for (int i = 0; i < _samplesAmount; i++) {
-            Vector3 p = new Vector3(transform.position.x, transform.position.y, _zOrigin + i - .0001F);
+            Vector3 p = new Vector3(transform.localPosition.x, transform.localPosition.y, (-_samplesAmount / 2) + i - .0001F);
             GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
             cube.transform.position = p;
             cube.transform.parent = transform;
+            cube.transform.localScale -= new Vector3(0, 0, 0.2F); 
+            cube.GetComponent<Renderer>().material = _barMaterial;
             _cubes[i] = cube;
         }
     }
@@ -37,8 +40,9 @@ public class VController : MonoBehaviour
             _audioSource.GetSpectrumData(_spectrum, 0, FFTWindow.Hamming);
 
             for (int i = 0; i < _samplesAmount; i++) {
-                Vector3 newScale = new Vector3(1, GetFunctionValueForSample(_spectrum[i]), 1);
-                _cubes[i].transform.localScale = Vector3.Lerp(_cubes[i].transform.localScale, newScale, _lerpSpeed * Time.deltaTime);
+                Vector3 cubeLocalScale = _cubes[i].transform.localScale;
+                Vector3 newScale = new Vector3(cubeLocalScale.x, GetFunctionValueForSample(_spectrum[i]), cubeLocalScale.z);
+                _cubes[i].transform.localScale = Vector3.Lerp(cubeLocalScale, newScale, _lerpSpeed * Time.deltaTime);
             }
         } else {
             foreach (GameObject cube in _cubes) cube.SetActive(false);
