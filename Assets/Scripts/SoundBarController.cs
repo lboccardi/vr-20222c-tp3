@@ -8,6 +8,8 @@ public class SoundBarController : MonoBehaviour
     public AudioSource SetAudioSource => _audioSource; 
     [SerializeField] private AudioSource _audioSource;
 
+    [SerializeField] private AudioClip[] songs;
+
     public Material SetBarMaterial => _barMaterial;
     [SerializeField] private Material _barMaterial;
 
@@ -52,4 +54,22 @@ public class SoundBarController : MonoBehaviour
     private float GetFunctionValueForSample(float sample) {
         return 50 * Mathf.Pow(Mathf.Abs(sample), 0.2F);
     }
+
+
+    public void Stop(){
+        foreach (GameObject cube in _cubes) cube.SetActive(false);
+        _audioSource.Stop();
+    }
+
+
+    public void ChangeSong(int index){
+        print("\n\n\nCHANGESONG\n\n\n");
+        if (index < songs.Length && index >= 0) {
+            _audioSource.Stop();
+            _audioSource.clip = songs[index];
+            _audioSource.Play();
+            foreach (GameObject cube in _cubes) cube.SetActive(true);
+        }
+    }
+
 }
