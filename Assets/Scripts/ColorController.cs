@@ -6,6 +6,7 @@ public class ColorController : MonoBehaviour
 {
     [SerializeField] private float _time = 1F;
     [SerializeField] private Color _color;
+    [SerializeField] private Color _colorInverted;
     [SerializeField] private GameObject[] _objectsToColor;
 
     void Start()
@@ -22,9 +23,14 @@ public class ColorController : MonoBehaviour
         return new Color(Random.value, Random.value, Random.value);
     }
 
+    private Color GetInvertedColor(Color color) {
+        return new Color(1 - color.r, 1 - color.g, 1 - color.b);
+    }
+
     void UpdateColor() {
         if (_time - Time.deltaTime < 0) {
             _color = GetRandomColor();
+            _colorInverted = GetInvertedColor(_color);
             _time = 1F;
         }
 
@@ -42,7 +48,8 @@ public class ColorController : MonoBehaviour
             MeshRenderer[] childRenderers = gameObject.GetComponentsInChildren<MeshRenderer>();
             foreach (MeshRenderer childRenderer in childRenderers) {
                 Color color = childRenderer.GetComponent<MeshRenderer>().material.color;
-                childRenderer.material.color = Color.Lerp(color, _color, Time.deltaTime);
+                // Color with inverted color for contrast
+                childRenderer.material.color = Color.Lerp(color, _colorInverted, Time.deltaTime);
             }
         }
 
