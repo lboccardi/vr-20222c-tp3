@@ -14,7 +14,7 @@ public class SoundBarController : MonoBehaviour
     [SerializeField] private Material _barMaterial;
 
     [SerializeField] private GameObject[] _cubes;
-    [SerializeField] private int _samplesAmount = 450;
+    [SerializeField] private int _samplesAmount = 128;
     [SerializeField] private float _lerpSpeed = 10F;
     [SerializeField] private float[] _spectrum;
 
@@ -33,8 +33,6 @@ public class SoundBarController : MonoBehaviour
         clipSampleData = new float[sampleDataLength];
 
         int squaresCount = _samplesAmount;
-        int distance = 32;
-        int multi = 1;
 
         for (int i = 0; i < _samplesAmount; i++) {
             //Vector3 p = new Vector3(transform.localPosition.x + System.Math.Abs(distance), transform.localPosition.y, (-_samplesAmount / 2) + i - .0001F);
@@ -42,8 +40,8 @@ public class SoundBarController : MonoBehaviour
            
 
             float theta = (float) (i * 2 * System.Math.PI / _samplesAmount);
-            float xValue = (float) (System.Math.Sin(theta) * 10);
-            float zValue = (float) (System.Math.Cos(theta) * 10);
+            float xValue = (float) (System.Math.Sin(theta) * 30);
+            float zValue = (float) (System.Math.Cos(theta) * 30);
             Vector3 p = new Vector3(transform.localPosition.x + xValue, transform.localPosition.y, transform.localPosition.z + zValue);
             GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
             cube.transform.position = p;
@@ -53,7 +51,6 @@ public class SoundBarController : MonoBehaviour
             cube.transform.LookAt(normal, Vector3.up);
             cube.GetComponent<Renderer>().material = _barMaterial;
             _cubes[i] = cube;
-            distance--;
         }
     }
 
